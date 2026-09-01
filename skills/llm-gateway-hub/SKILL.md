@@ -22,7 +22,7 @@ platforms:
 - windows
 - macos
 - linux
-homepage: https://nomos.ai
+homepage: https://synomos.ai
 languages:
 - zh-CN
 - en

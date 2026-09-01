@@ -1,6 +1,6 @@
 # llm-gateway-hub 统一模型网关 · 亮点与价值说明
 
-> 🌐 官网：https://nomos.ai ｜ 作者：SynomosAI ｜ 版本：V1.0
+> 🌐 官网：https://synomos.ai ｜ 作者：SynomosAI ｜ 版本：V1.0
 > 一句话定位：**一个网关，接入所有主流大模型——统一指挥、统一管控、统一记账、省钱省心。**
 
 ---
@@ -90,7 +90,7 @@ OpenAI 兼容的平台都能接：豆包/千问/DeepSeek/Kimi/智谱/混元/硅�
 - 🏠🏢 **两地接入部署**：公司 + 异地实时同步，双端协同
 - 🎓 **培训与长期运维**：团队上手、持续优化、季度复盘
 
-🌐 官网：**https://nomos.ai** ｜ 📣 公众号：**SynomosAI / SynomosAI**
+🌐 官网：**https://synomos.ai** ｜ 📣 公众号：**SynomosAI / SynomosAI**
 > 先零成本下载用起来，需要定制再找我们——两周上线，先出架构蓝图再决定。
 
 ---

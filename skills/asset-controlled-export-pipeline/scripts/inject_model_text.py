@@ -123,7 +123,7 @@ def build_xmp(meta):
         '  <rdf:Description rdf:about=""\n'
         '    xmlns:dc="http://purl.org/dc/elements/1.1/"\n'
         '    xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/"\n'
-        '    xmlns:mx="https://nomos.ai/ns#">\n'
+        '    xmlns:mx="https://synomos.ai/ns#">\n'
         f'   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">{meta["Title"]}</rdf:li></rdf:Alt></dc:title>\n'
         f'   <dc:creator><rdf:Seq><rdf:li>{meta["Author"]}</rdf:li></rdf:Seq></dc:creator>\n'
         f'   <dc:rights><rdf:Alt><rdf:li xml:lang="x-default">{meta["Copyright"]} · 运营：{meta["Operator"]}</rdf:li></rdf:Alt></dc:rights>\n'
@@ -157,7 +157,7 @@ def inject_svg(path, meta):
         f'<desc>{meta["Description"]} | AI来源：{meta["AI-Statement"]}</desc>\n'
         '<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" '
         'xmlns:cc="http://creativecommons.org/ns#" '
-        'xmlns:mx="https://nomos.ai/ns#" '
+        'xmlns:mx="https://synomos.ai/ns#" '
         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">\n'
         '  <rdf:RDF>\n'
         '    <cc:Work rdf:about="">\n'
@@ -258,7 +258,7 @@ def main():
         print(f"    PNG TraceID={ti.get('TraceID')} Platform={ti.get('Platform')} License={ti.get('License')}")
         print(f"    PNG Desc={ti.get('Description','')[:30]}...")
         root = ET.parse(e["svg"]).getroot()
-        mc = root.find(".//{https://nomos.ai/ns#}traceCode")
+        mc = root.find(".//{https://synomos.ai/ns#}traceCode")
         print(f"    SVG mx:traceCode={mc.text if mc is not None else 'N/A'}")
 
 if __name__ == "__main__":
