@@ -1,0 +1,28 @@
+# SynomosAI Skills（synomosai-skills）
+
+> SynomosAI 官方 Agent Skills 聚合索引：51 个开箱即用的技能目录，遵循 Agent Skills 规范（SKILL.md + YAML frontmatter），与 Claude Code、Codex、Gemini CLI、Cursor、WorkBuddy 等框架兼容。
+
+`synomosai-skills` 是 SynomosAI（诺莫斯 AI）的技能生态仓：把 AI 治理、AI 大脑方法论、内容运营、医疗器械国际业务、开发者工具等场景的可复用能力固化为标准技能包，供 AI Agent 直接加载调用。
+
+## 核心文件
+
+- [README.md](README.md): 项目说明、快速开始与 51 个技能清单（中文）
+- [README.en.md](README.en.md): 英文版说明
+- [skills/](skills/): 51 个技能目录，每个含 `SKILL.md`（YAML frontmatter + 正文）
+- [LICENSE](LICENSE): MIT License 全文（© 2026 SynomosAI）
+- [CODEOWNERS](CODEOWNERS): 代码所有者（@SynomosAI/synomosai-gov）
+- [SECURITY.md](SECURITY.md): 安全策略与报告途径
+- [AGENTS.md](AGENTS.md): 给 AI Agent 的工作指引
+- [llms-full.txt](llms-full.txt): 本仓完整说明（llms.txt 完整版）
+
+## 技能大类
+
+- AI 治理与安全（8）: a3-law-operational · ai-governance-audit-chain · ai-consciousness · ai-grader · authz-code-design · credential-vault-design · premise-and-config-audit · traceability-audit-team
+- AI 大脑 / 记忆与学习（6）: ai-brain-learning-memory · ai-brain-learning-memory-pro · brain-design-benchmark · agent-learn-external-skill · cross-session-passphrase · cross-machine-offline-taskbox
+- 开发与工程（28）: code-mentor · coding-agent · debug-pro · data-scientist · continuous-test-review-loop · llm-gateway-hub · local-llm-eval-assist · rag-eval-harness · project-planning-methodology · research-methodology · research-quality-gate · publish-quality-gate · content-publish-lifecycle · ssot-content-management · fingerprint-delivery · doc-legacy-extract · summarize-file · summarize-pro · todo-tracker · reminder · unified-task-ledger · local-agent-open · tencent-cos-static-site · video-watermark-anti-theft · wechat-article-full-workflow · wechat-qa-checklist · wechat-viral-topic · lexiang-website-sync
+- 医疗器械国际业务（4）: medxpert-llm-library · medxpert-l1-batch-study · medxpert-skill-panorama · offline-knowledge-alignment
+- AI 团队与品牌（5）: asset-controlled-export-pipeline · ardot-mobile-app-multi-screen · laopaidang-core · identity-verify · personal-assistant
+
+## 在线分发
+
+- Hugging Face Skills Marketplace: https://huggingface.co/zhaoxinghua09/skills

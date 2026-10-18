@@ -1,0 +1,56 @@
+# SynomosAI Skills（synomosai-skills）— 完整文本
+
+本文件为 llms.txt 标准的「完整版」，供长上下文模型一次性读取本仓库的完整说明。
+
+## 这是什么
+
+`synomosai-skills` 是 SynomosAI（诺莫斯 AI）的**官方 Agent Skills 聚合仓**：51 个开箱即用的技能目录，每个目录含 `SKILL.md`（YAML frontmatter + 正文），遵循 Agent Skills 规范，可被 Claude Code、Codex、Gemini CLI、Cursor、WorkBuddy 等主流 AI Agent 框架直接加载。
+
+一句话：一个目录 = 一个技能；拷进技能目录即可用。
+
+## 解决什么问题
+
+1. **可复用能力沉淀**：把 AI 治理评估、大脑 / 记忆方法论、内容运营流水线、医疗器械国际业务、开发工程等场景的可复用工作流固化为标准技能包，避免每个 Agent 重复造轮子。
+2. **跨框架即插即用**：统一的 `SKILL.md` frontmatter（名称 / 描述 / 触发词）让不同 Agent 框架用同一套约定发现并调用技能。
+3. **多渠道分发**：同一套技能同步发布到 Hugging Face Skills 市场、ClawHub / SkillHub、SkillPie（skillpie.cn），Coze 技能商店等渠道持续接入。
+4. **组织级审核**：仓库 main 分支受组织 ruleset 保护，PR 须过 lgd-ci-gate 与三层机器人审核工作流。
+
+## 技能全景（51 个）
+
+- **AI 治理与安全（8）**：a3-law-operational、ai-governance-audit-chain、ai-consciousness、ai-grader、authz-code-design、credential-vault-design、premise-and-config-audit、traceability-audit-team
+- **AI 大脑 / 记忆与学习（6）**：ai-brain-learning-memory、ai-brain-learning-memory-pro、brain-design-benchmark、agent-learn-external-skill、cross-session-passphrase、cross-machine-offline-taskbox
+- **开发与工程（28）**：code-mentor、coding-agent、debug-pro、data-scientist、continuous-test-review-loop、llm-gateway-hub、local-llm-eval-assist、rag-eval-harness、project-planning-methodology、research-methodology、research-quality-gate、publish-quality-gate、content-publish-lifecycle、ssot-content-management、fingerprint-delivery、doc-legacy-extract、summarize-file、summarize-pro、todo-tracker、reminder、unified-task-ledger、local-agent-open、tencent-cos-static-site、video-watermark-anti-theft、wechat-article-full-workflow、wechat-qa-checklist、wechat-viral-topic、lexiang-website-sync
+- **医疗器械国际业务（4）**：medxpert-llm-library、medxpert-l1-batch-study、medxpert-skill-panorama、offline-knowledge-alignment
+- **AI 团队与品牌（5）**：asset-controlled-export-pipeline、ardot-mobile-app-multi-screen、laopaidang-core、identity-verify、personal-assistant
+
+## 快速开始
+
+前置：任意支持 Agent Skills 规范的 Agent 框架（Claude Code / Codex / Gemini CLI / Cursor / WorkBuddy 等）。
+
+```bash
+# 1. 克隆本仓库
+git clone https://github.com/SynomosAI/synomosai-skills.git
+
+# 2. 把某个技能目录拷入你的技能目录
+cp -r skills/ai-grader ~/.claude/skills/
+
+# 3. 或通过 Hugging Face Marketplace 安装
+/plugin marketplace add zhaoxinghua09/skills
+/plugin install <skill-name>@zhaoxinghua09/skills
+```
+
+## 触发词
+
+Agent Skills 集合 / 技能索引 / SKILL.md / AI 治理技能 / AI 大脑方法论 / 内容运营工作流 / 医疗器械注册辅助 / 代码评审技能 / RAG 评测 / local LLM 工具集 / claude code skill / cursor skill / workbuddy skill。
+
+## 许可与权利
+
+- 根目录以 **MIT License** 许可发布，版权归属 © 2026 SynomosAI（完整条款见根目录 LICENSE）。
+- 各技能目录内如另有 `LICENSE.md`，以该目录内许可口径为准。
+- 技能作者署名：`诺声(Logos)@SynomosAI` 等品牌大使笔名（详见各技能 frontmatter `author` 字段）。
+- 本仓技能为效率工具与方法论沉淀，不构成专业咨询结论；涉及法规 / 医疗的输出为自评参考性质。
+
+## 链接
+
+- 仓库: https://github.com/SynomosAI/synomosai-skills
+- Hugging Face 市场: https://huggingface.co/zhaoxinghua09/skills
