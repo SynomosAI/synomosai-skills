@@ -1,0 +1,55 @@
+name: skill-lock
+
+# 技能包完整性锁：字节改动、新增技能、删除技能都必须显式改 skills.lock.json。
+# 这个 job 自带负控（改坏一个字节必须变红），因此它不是"只能通过"的门禁。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-lock-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lock:
+    name: skill tree integrity lock (can fail)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.10'
+
+      - name: Regression tests for the lock tool
+        run: |
+          set -e
+          python -m pip install --quiet pytest
+          python -m pytest tests/test_skill_lock.py -q
+
+      - name: Verify the skills lock
+        run: |
+          set -e
+          python tools/skill_lock.py verify --root .
+
+      - name: Negative control - one mutated byte must fail
+        run: python tools/skill_lock.py selftest --root .
+
+      - name: Skill count and root digest (audit trail)
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open("skills.lock.json", encoding="utf-8"))
+          print(f"skill_count={d['skill_count']} root_digest={d['root_digest']}")
+          print("\n".join(f"{s['path']} {s['digest'][:16]} files={s['file_count']}" for s in d['skills']))
+          PY
