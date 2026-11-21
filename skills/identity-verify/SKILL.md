@@ -32,6 +32,7 @@ ambassador: 诺卫
 trigger_keywords:
 - identity
 - verify
+capabilities: [read]
 ---
 
 

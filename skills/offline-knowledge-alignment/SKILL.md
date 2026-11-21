@@ -35,6 +35,7 @@ trigger_keywords:
 - offline
 - knowledge
 - alignment
+capabilities: [read]
 ---
 
 

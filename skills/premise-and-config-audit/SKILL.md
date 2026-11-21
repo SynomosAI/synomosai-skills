@@ -41,6 +41,7 @@ trigger_keywords:
 - and
 - config
 - audit
+capabilities: [read]
 ---
 
 

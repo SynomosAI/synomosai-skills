@@ -36,6 +36,7 @@ trigger_keywords:
 - lexiang
 - website
 - sync
+capabilities: [read]
 ---
 
 

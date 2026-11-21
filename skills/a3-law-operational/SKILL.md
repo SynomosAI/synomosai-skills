@@ -48,6 +48,7 @@ trigger_keywords:
 - a3
 - law
 - operational
+capabilities: [read]
 ---
 
 

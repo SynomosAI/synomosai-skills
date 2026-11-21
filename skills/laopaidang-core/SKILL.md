@@ -38,6 +38,7 @@ trigger_keywords:
 - laopaidang
 - core
 - nomos
+capabilities: [read]
 ---
 
 

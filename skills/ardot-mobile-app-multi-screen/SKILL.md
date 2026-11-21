@@ -42,6 +42,7 @@ trigger_keywords:
 - app
 - multi
 - screen
+capabilities: [read]
 ---
 
 

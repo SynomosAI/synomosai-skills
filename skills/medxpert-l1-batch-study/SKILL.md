@@ -68,6 +68,7 @@ trigger_keywords:
 - l1
 - batch
 - study
+capabilities: [read, write]
 ---
 
 

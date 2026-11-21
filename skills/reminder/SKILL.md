@@ -39,6 +39,7 @@ ambassador: 诺声
 trigger_keywords:
 - reminder
 - 提醒管理
+capabilities: [read]
 ---
 
 

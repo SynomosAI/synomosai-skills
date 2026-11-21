@@ -42,6 +42,7 @@ trigger_keywords:
 - article
 - full
 - workflow
+capabilities: [read, write, exec, network]
 ---
 
 

@@ -44,6 +44,7 @@ trigger_keywords:
 - doc
 - legacy
 - extract
+capabilities: [read]
 ---
 
 

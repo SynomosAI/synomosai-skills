@@ -40,6 +40,7 @@ trigger_keywords:
 - unified
 - task
 - ledger
+capabilities: [read]
 ---
 
 

@@ -41,6 +41,7 @@ trigger_keywords:
 - cos
 - static
 - site
+capabilities: [read]
 ---
 
 

@@ -48,6 +48,7 @@ trigger_keywords:
 - llm
 - gateway
 - hub
+capabilities: [read, write, network]
 ---
 
 

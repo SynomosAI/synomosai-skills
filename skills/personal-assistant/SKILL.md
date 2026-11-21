@@ -54,6 +54,7 @@ ambassador: 诺声
 trigger_keywords:
 - personal
 - assistant
+capabilities: [read]
 ---
 
 

@@ -39,6 +39,7 @@ ambassador: 诺声
 trigger_keywords:
 - coding
 - agent
+capabilities: [read]
 ---
 
 

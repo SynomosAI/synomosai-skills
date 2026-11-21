@@ -41,6 +41,7 @@ trigger_keywords:
 - ssot
 - content
 - management
+capabilities: [read]
 ---
 
 

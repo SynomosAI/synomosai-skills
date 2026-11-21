@@ -33,6 +33,7 @@ trigger_keywords:
 - authz
 - code
 - design
+capabilities: [read, write, network]
 ---
 
 

@@ -52,6 +52,7 @@ ambassador: 诺声
 trigger_keywords:
 - ai
 - consciousness
+capabilities: [read]
 ---
 
 

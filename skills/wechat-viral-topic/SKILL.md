@@ -45,6 +45,7 @@ trigger_keywords:
 - wechat
 - viral
 - topic
+capabilities: [read]
 ---
 
 

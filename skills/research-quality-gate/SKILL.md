@@ -40,6 +40,7 @@ trigger_keywords:
 - research
 - quality
 - gate
+capabilities: [read]
 ---
 
 

@@ -39,6 +39,7 @@ ambassador: 诺声
 trigger_keywords:
 - debug
 - pro
+capabilities: [read]
 ---
 
 

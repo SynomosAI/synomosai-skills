@@ -40,6 +40,7 @@ trigger_keywords:
 - todo
 - tracker
 - 任务跟踪
+capabilities: [read]
 ---
 
 

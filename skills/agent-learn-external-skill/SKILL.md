@@ -41,6 +41,7 @@ trigger_keywords:
 - learn
 - external
 - skill
+capabilities: [read]
 ---
 
 

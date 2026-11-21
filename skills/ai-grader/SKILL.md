@@ -47,6 +47,7 @@ ambassador: 诺衡
 trigger_keywords:
 - ai
 - grader
+capabilities: [read, write]
 ---
 
 

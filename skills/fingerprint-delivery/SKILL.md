@@ -48,6 +48,7 @@ ambassador: 诺源
 trigger_keywords:
 - fingerprint
 - delivery
+capabilities: [read, write]
 ---
 
 

@@ -42,6 +42,7 @@ trigger_keywords:
 - watermark
 - anti
 - theft
+capabilities: [read]
 ---
 
 

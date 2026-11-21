@@ -38,6 +38,7 @@ trigger_keywords:
 - medxpert
 - skill
 - panorama
+capabilities: [read]
 ---
 
 

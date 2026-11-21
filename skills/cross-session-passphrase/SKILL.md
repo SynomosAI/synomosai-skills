@@ -33,6 +33,7 @@ trigger_keywords:
 - cross
 - session
 - passphrase
+capabilities: [read]
 ---
 
 

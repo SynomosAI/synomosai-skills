@@ -40,6 +40,7 @@ trigger_keywords:
 - summarize
 - pro
 - 增强总结
+capabilities: [read]
 ---
 
 

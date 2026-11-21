@@ -48,6 +48,7 @@ trigger_keywords:
 - machine
 - offline
 - taskbox
+capabilities: [read, write, exec]
 ---
 
 

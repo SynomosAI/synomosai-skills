@@ -44,6 +44,7 @@ trigger_keywords:
 - wechat
 - qa
 - checklist
+capabilities: [read]
 ---
 
 

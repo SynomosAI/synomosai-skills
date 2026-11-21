@@ -40,6 +40,7 @@ trigger_keywords:
 - summarize
 - file
 - 文件速读
+capabilities: [read]
 ---
 
 

@@ -49,6 +49,7 @@ trigger_keywords:
 - governance
 - audit
 - chain
+capabilities: [read]
 ---
 
 

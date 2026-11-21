@@ -45,6 +45,7 @@ trigger_keywords:
 - llm
 - eval
 - assist
+capabilities: [read]
 ---
 
 

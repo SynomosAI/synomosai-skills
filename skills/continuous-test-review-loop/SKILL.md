@@ -47,6 +47,7 @@ trigger_keywords:
 - test
 - review
 - loop
+capabilities: [read]
 ---
 
 

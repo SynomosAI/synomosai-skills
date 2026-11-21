@@ -41,6 +41,7 @@ trigger_keywords:
 - controlled
 - export
 - pipeline
+capabilities: [read, write, network]
 ---
 
 

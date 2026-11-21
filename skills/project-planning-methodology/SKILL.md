@@ -40,6 +40,7 @@ trigger_keywords:
 - project
 - planning
 - methodology
+capabilities: [read]
 ---
 
 

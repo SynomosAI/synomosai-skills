@@ -39,6 +39,7 @@ ambassador: 诺源
 trigger_keywords:
 - research
 - methodology
+capabilities: [read]
 ---
 
 

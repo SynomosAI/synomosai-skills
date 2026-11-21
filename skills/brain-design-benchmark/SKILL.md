@@ -44,6 +44,7 @@ trigger_keywords:
 - brain
 - design
 - benchmark
+capabilities: [read]
 ---
 
 

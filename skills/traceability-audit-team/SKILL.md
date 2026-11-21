@@ -46,6 +46,7 @@ trigger_keywords:
 - traceability
 - audit
 - team
+capabilities: [read]
 ---
 
 

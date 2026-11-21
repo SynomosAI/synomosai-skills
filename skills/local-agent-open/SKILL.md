@@ -40,6 +40,7 @@ trigger_keywords:
 - local
 - agent
 - open
+capabilities: [read]
 ---
 
 
