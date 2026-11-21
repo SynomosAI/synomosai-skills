@@ -30,6 +30,7 @@ import tempfile
 from pathlib import Path
 
 LOCK_NAME = "skills.lock.json"
+ANCHOR_NAME = "skills.lock.anchor.json"
 SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", "tests", "fixtures", "testdata"}
 TEXT_LIMIT = 1_000_000  # 单文件 >1MB 按二进制处理，避免读爆内存
 
@@ -91,7 +92,7 @@ def _front_matter(skill_md: Path) -> tuple[str, str]:
     return name, desc
 
 
-def build_lock(root: Path) -> dict:
+def build_lock(root: Path, previous: dict | None = None) -> dict:
     entries = []
     for d in _skill_dirs(root):
         rel = d.relative_to(root).as_posix() or "."
@@ -109,11 +110,27 @@ def build_lock(root: Path) -> dict:
     h = hashlib.sha256()
     for e in entries:
         h.update(f"{e['path']}\0{e['digest']}\n".encode())
+    root_digest = h.hexdigest()
+
+    # 回滚保护：sequence 单调递增，history 只能追加，等于一本防篡改的账本
+    prev_seq = 0
+    prev_history: list = []
+    attest: list = []
+    if isinstance(previous, dict):
+        prev_seq = int(previous.get("sequence") or 0)
+        prev_history = list(previous.get("history") or [])
+        attest = list(previous.get("validated_against") or [])
+    seq = prev_seq + 1
+    history = prev_history + [{"sequence": seq, "root_digest": root_digest}]
+
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "algorithm": "sha256(sorted relpath + NUL + file sha256, per line)",
-        "root_digest": h.hexdigest(),
+        "root_digest": root_digest,
         "skill_count": len(entries),
+        "sequence": seq,
+        "history": history,
+        "validated_against": attest,
         "skills": entries,
     }
 
@@ -150,13 +167,124 @@ def diff_lock(root: Path, lock: dict) -> list[str]:
                 f"root_digest mismatch (locked {str(lock.get('root_digest'))[:12]}, "
                 f"rebuilt {rebuilt['root_digest'][:12]})"
             )
+
+    problems.extend(_chain_problems(root, lock))
+    problems.extend(_attestation_problems(lock))
+    return problems
+
+
+def _chain_problems(root: Path, lock: dict) -> list[str]:
+    """回滚保护：sequence/history 必须自洽，且不得落后于锚点。
+
+    行业前沿（ContextLock 的 rollback v7 >= v7）要防的是"把锁换回旧版本"这种攻击：
+    旧锁本身完全自洽，校验和也对，只是它描述的是过去的状态。
+    """
+    problems: list[str] = []
+    seq = lock.get("sequence")
+    history = lock.get("history")
+    if not isinstance(seq, int) or seq < 1:
+        problems.append("sequence missing or invalid: rollback protection cannot be evaluated")
+        return problems
+    if not isinstance(history, list) or len(history) != seq:
+        problems.append(
+            f"history incomplete: sequence={seq} but history has "
+            f"{len(history) if isinstance(history, list) else 'no'} entry(ies)"
+        )
+        return problems
+    for i, item in enumerate(history, start=1):
+        if not isinstance(item, dict) or item.get("sequence") != i or not item.get("root_digest"):
+            problems.append(f"history[{i}]: malformed entry (expected sequence={i} with root_digest)")
+            break
+    if history[-1].get("root_digest") != lock.get("root_digest"):
+        problems.append("history tail does not match root_digest (history was edited by hand)")
+
+    anchor_path = root / ANCHOR_NAME
+    if anchor_path.exists():
+        try:
+            anchor = json.loads(anchor_path.read_text(encoding="utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            problems.append(f"{ANCHOR_NAME}: unreadable ({exc})")
+            return problems
+        a_seq = int(anchor.get("sequence") or 0)
+        a_digest = anchor.get("root_digest")
+        if a_seq < 1 or not a_digest:
+            problems.append(f"{ANCHOR_NAME}: missing sequence/root_digest")
+        elif seq < a_seq:
+            problems.append(
+                f"lock rolled back: anchor sequence {a_seq} > lock sequence {seq} "
+                f"(an older lock was restored)"
+            )
+        elif history[a_seq - 1].get("root_digest") != a_digest:
+            problems.append(
+                f"anchor mismatch at sequence {a_seq}: anchor {str(a_digest)[:12]} != "
+                f"history {str(history[a_seq - 1].get('root_digest'))[:12]}"
+            )
+    return problems
+
+
+def _attestation_problems(lock: dict) -> list[str]:
+    """行为证明：字节没变不等于行为没变，必须显式声明"在什么 harness/model 上验过"。
+
+    取自 skill-provenance 的 validated_against：与 integrity pin 分开记，
+    只有 result=pass 才允许放行，partial/fail 一律视为未验证。
+    """
+    problems: list[str] = []
+    entries = lock.get("validated_against") or []
+    if not isinstance(entries, list):
+        problems.append("validated_against must be a list")
+        return problems
+    required = ("bundle_version", "harness", "model", "date", "result")
+    for i, e in enumerate(entries):
+        if not isinstance(e, dict):
+            problems.append(f"validated_against[{i}]: not an object")
+            continue
+        missing = [k for k in required if not e.get(k)]
+        if missing:
+            problems.append(f"validated_against[{i}]: missing {', '.join(missing)}")
+            continue
+        if str(e["result"]).lower() != "pass":
+            problems.append(
+                f"validated_against[{i}]: result={e['result']} means this bundle is not validated "
+                f"(only 'pass' is accepted)"
+            )
     return problems
 
 
 def cmd_generate(root: Path, out: Path) -> int:
-    lock = build_lock(root)
+    previous = None
+    if out.exists():
+        try:
+            previous = json.loads(out.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            previous = None
+    lock = build_lock(root, previous)
+    # 内容没变就不推进 sequence：账本只记录真实的变更点
+    if isinstance(previous, dict) and previous.get("root_digest") == lock["root_digest"]:
+        lock["sequence"] = previous.get("sequence", lock["sequence"])
+        lock["history"] = previous.get("history", lock["history"])
     out.write_text(json.dumps(lock, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"wrote {out} : {lock['skill_count']} skills, root_digest={lock['root_digest'][:16]}")
+    print(
+        f"wrote {out} : {lock['skill_count']} skills, root_digest={lock['root_digest'][:16]}, "
+        f"sequence={lock['sequence']}"
+    )
+    return 0
+
+
+def cmd_anchor(root: Path, lock_path: Path) -> int:
+    """把当前锁的 (sequence, root_digest) 钉进锚点；之后回滚到旧锁会被 verify 拒绝。"""
+    if not lock_path.exists():
+        print(f"::error::missing {LOCK_NAME}; run generate first")
+        return 1
+    lock = json.loads(lock_path.read_text(encoding="utf-8"))
+    anchor = {
+        "schema_version": 1,
+        "sequence": lock.get("sequence"),
+        "root_digest": lock.get("root_digest"),
+        "skill_count": lock.get("skill_count"),
+    }
+    path = root / ANCHOR_NAME
+    path.write_text(json.dumps(anchor, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"wrote {path} : sequence={anchor['sequence']}, root_digest={str(anchor['root_digest'])[:16]}")
     return 0
 
 
@@ -221,6 +349,40 @@ def cmd_selftest(root: Path) -> int:
             failures += 1
         else:
             print("positive control OK: restored tree verifies")
+
+        # 第三个负控：回滚保护。把锁换回旧版本（内容自洽、校验和也对），必须被拒。
+        lock_path = work / LOCK_NAME
+        cur = json.loads(lock_path.read_text(encoding="utf-8"))
+        (work / ANCHOR_NAME).write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "sequence": cur["sequence"],
+                    "root_digest": cur["root_digest"],
+                    "skill_count": cur["skill_count"],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        rolled = dict(cur)
+        if cur["sequence"] > 1:
+            rolled["sequence"] = cur["sequence"] - 1
+            rolled["history"] = cur["history"][: cur["sequence"] - 1]
+        else:
+            rolled["sequence"] = 1
+            rolled["history"] = [{"sequence": 1, "root_digest": "0" * 64}]
+            rolled["root_digest"] = "0" * 64
+        lock_path.write_text(json.dumps(rolled, indent=2, sort_keys=True), encoding="utf-8")
+        rc3 = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), "verify", "--root", str(work)],
+            capture_output=True, text=True
+        ).returncode
+        if rc3 == 0:
+            print("::error::rollback control failed: a rolled-back lockfile still verified clean")
+            failures += 1
+        else:
+            print(f"rollback control OK: restored old lockfile rejected (exit {rc3})")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     return 1 if failures else 0
@@ -228,7 +390,7 @@ def cmd_selftest(root: Path) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["generate", "verify", "selftest"])
+    ap.add_argument("command", choices=["generate", "verify", "selftest", "anchor"])
     ap.add_argument("--root", default=".")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
@@ -238,6 +400,8 @@ def main() -> int:
         return cmd_generate(root, lock_path)
     if a.command == "verify":
         return cmd_verify(root, lock_path)
+    if a.command == "anchor":
+        return cmd_anchor(root, lock_path)
     return cmd_selftest(root)
 
 

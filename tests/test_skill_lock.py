@@ -87,3 +87,66 @@ def test_lockfile_is_stable_across_runs(tmp_path):
     run("generate", tmp_path)
     second = json.loads((tmp_path / "skills.lock.json").read_text(encoding="utf-8"))
     assert first["root_digest"] == second["root_digest"]
+
+def test_rollback_rejected_by_anchor(tmp_path):
+    make_tree(tmp_path)
+    run("generate", tmp_path)
+    old = (tmp_path / "skills.lock.json").read_text(encoding="utf-8")
+    target = tmp_path / "skills" / "beta" / "SKILL.md"
+    original = target.read_text(encoding="utf-8")
+    target.write_text(original + "\n", encoding="utf-8")
+    assert run("generate", tmp_path).returncode == 0
+    assert run("anchor", tmp_path).returncode == 0
+    new_lock = json.loads((tmp_path / "skills.lock.json").read_text(encoding="utf-8"))
+    assert new_lock["sequence"] == 2
+    target.write_text(original, encoding="utf-8")           # 树恢复成旧锁描述的状态
+    (tmp_path / "skills.lock.json").write_text(old, encoding="utf-8")  # 换回旧锁
+    r = run("verify", tmp_path)
+    assert r.returncode == 1
+    assert "lock rolled back" in r.stdout
+
+
+def test_history_tamper_detected(tmp_path):
+    make_tree(tmp_path)
+    run("generate", tmp_path)
+    lock = json.loads((tmp_path / "skills.lock.json").read_text(encoding="utf-8"))
+    lock["history"][-1]["root_digest"] = "0" * 64
+    (tmp_path / "skills.lock.json").write_text(json.dumps(lock, indent=2), encoding="utf-8")
+    r = run("verify", tmp_path)
+    assert r.returncode == 1
+    assert "history tail" in r.stdout
+
+
+def test_attestation_must_pass(tmp_path):
+    make_tree(tmp_path)
+    run("generate", tmp_path)
+    lock = json.loads((tmp_path / "skills.lock.json").read_text(encoding="utf-8"))
+    lock["validated_against"] = [{
+        "bundle_version": "0.1.0", "harness": "CI", "model": "none",
+        "date": "2026-11-22", "result": "partial",
+    }]
+    (tmp_path / "skills.lock.json").write_text(json.dumps(lock, indent=2), encoding="utf-8")
+    r = run("verify", tmp_path)
+    assert r.returncode == 1
+    assert "not validated" in r.stdout
+
+
+def test_attestation_requires_fields(tmp_path):
+    make_tree(tmp_path)
+    run("generate", tmp_path)
+    lock = json.loads((tmp_path / "skills.lock.json").read_text(encoding="utf-8"))
+    lock["validated_against"] = [{"result": "pass"}]
+    (tmp_path / "skills.lock.json").write_text(json.dumps(lock, indent=2), encoding="utf-8")
+    r = run("verify", tmp_path)
+    assert r.returncode == 1
+    assert "missing" in r.stdout
+
+
+def test_selftest_reports_three_controls(tmp_path):
+    make_tree(tmp_path)
+    run("generate", tmp_path)
+    r = run("selftest", tmp_path)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "negative control OK" in r.stdout
+    assert "positive control OK" in r.stdout
+    assert "rollback control OK" in r.stdout
