@@ -34,7 +34,7 @@ jobs:
       - name: Regression tests for the lock tool
         run: |
           set -e
-          python -m pip install --quiet pytest
+          python -m pip install --quiet pytest cryptography
           python -m pytest tests/test_skill_lock.py -q
 
       - name: Verify the skills lock

@@ -294,6 +294,7 @@ def cmd_verify(root: Path, lock_path: Path) -> int:
         return 1
     lock = json.loads(lock_path.read_text(encoding="utf-8"))
     problems = diff_lock(root, lock)
+    problems.extend(_signature_problems(root, lock_path))
     for p in problems:
         print(f"::error::{p}")
     if problems:
@@ -352,7 +353,8 @@ def cmd_selftest(root: Path) -> int:
 
         # 第三个负控：回滚保护。把锁换回旧版本（内容自洽、校验和也对），必须被拒。
         lock_path = work / LOCK_NAME
-        cur = json.loads(lock_path.read_text(encoding="utf-8"))
+        cur_bytes = lock_path.read_bytes()
+        cur = json.loads(cur_bytes.decode("utf-8"))
         (work / ANCHOR_NAME).write_text(
             json.dumps(
                 {
@@ -383,6 +385,20 @@ def cmd_selftest(root: Path) -> int:
             failures += 1
         else:
             print(f"rollback control OK: restored old lockfile rejected (exit {rc3})")
+
+        # 第四个负控：签名。锁被改一个字节（即使内容仍自洽）必须被签名校验拒绝。
+        if (work / PUB_FILE).exists() and _crypto():
+            lock_path.write_bytes(cur_bytes + b"\n")
+            rc4 = subprocess.run(
+                [sys.executable, str(Path(__file__).resolve()), "verify", "--root", str(work)],
+                capture_output=True, text=True
+            )
+            if rc4.returncode == 0:
+                print("::error::signature control failed: an unsigned edit still verified clean")
+                failures += 1
+            else:
+                print(f"signature control OK: post-signing edit rejected (exit {rc4.returncode})")
+            lock_path.write_bytes(cur_bytes)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     return 1 if failures else 0
@@ -390,19 +406,145 @@ def cmd_selftest(root: Path) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["generate", "verify", "selftest", "anchor"])
+    ap.add_argument("command", choices=["generate", "verify", "selftest", "anchor", "keygen", "sign"])
     ap.add_argument("--root", default=".")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--key", default=None)
     a = ap.parse_args()
     root = Path(a.root).resolve()
     lock_path = Path(a.out).resolve() if a.out else root / LOCK_NAME
+    key_path = Path(a.key).resolve() if a.key else Path(
+        os.environ.get("SKILLLOCK_KEY") or (Path.home() / ".lgd" / "skilllock_key.json")
+    ).resolve()
     if a.command == "generate":
         return cmd_generate(root, lock_path)
     if a.command == "verify":
         return cmd_verify(root, lock_path)
     if a.command == "anchor":
         return cmd_anchor(root, lock_path)
+    if a.command == "keygen":
+        return cmd_keygen(key_path)
+    if a.command == "sign":
+        return cmd_sign(root, lock_path, key_path)
     return cmd_selftest(root)
+
+
+
+
+# ---------- 签名与身份策略（Ed25519）----------
+PUB_FILE = "skills.lock.pub"
+SIG_FILE = "skills.lock.sig"
+POLICY_NAME = "skills.lock.policy.json"
+
+
+def _crypto():
+    try:
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+            Ed25519PrivateKey, Ed25519PublicKey,
+        )
+        from cryptography.hazmat.primitives import serialization
+        return Ed25519PrivateKey, Ed25519PublicKey, serialization
+    except Exception as exc:  # noqa: BLE001
+        print(f"::error::signature support unavailable ({exc}); pip install cryptography")
+        return None
+
+
+def cmd_keygen(key_path: Path) -> int:
+    c = _crypto()
+    if not c:
+        return 1
+    Ed25519PrivateKey, _, serialization = c
+    key = Ed25519PrivateKey.generate()
+    priv = key.private_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PrivateFormat.Raw,
+        encryption_algorithm=serialization.NoEncryption(),
+    ).hex()
+    pub = key.public_key().public_bytes(
+        encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw
+    ).hex()
+    key_path.parent.mkdir(parents=True, exist_ok=True)
+    key_path.write_text(json.dumps({"algorithm": "ed25519", "private_hex": priv, "public_hex": pub}, indent=2), encoding="utf-8")
+    print(f"private key written to {key_path} (NEVER commit this file)")
+    print(f"public key (commit as {PUB_FILE}): {pub}")
+    return 0
+
+
+def _sign_bytes(payload: bytes, key_path: Path) -> str:
+    c = _crypto()
+    if not c:
+        return ""
+    Ed25519PrivateKey, _, _ = c
+    data = json.loads(key_path.read_text(encoding="utf-8"))
+    key = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(data["private_hex"]))
+    return key.sign(payload).hex()
+
+
+def _verify_bytes(payload: bytes, sig_hex: str, pub_hex: str) -> bool:
+    c = _crypto()
+    if not c:
+        return False
+    _, Ed25519PublicKey, _ = c
+    from cryptography.exceptions import InvalidSignature
+    try:
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(pub_hex)).verify(
+            bytes.fromhex(sig_hex), payload
+        )
+        return True
+    except (InvalidSignature, ValueError):
+        return False
+
+
+def cmd_sign(root: Path, lock_path: Path, key_path: Path) -> int:
+    if not lock_path.exists():
+        print(f"::error::missing {LOCK_NAME}")
+        return 1
+    if not key_path.exists():
+        print(f"::error::signing key not found at {key_path} (run keygen and keep it outside the repo)")
+        return 1
+    pub_hex = json.loads(key_path.read_text(encoding="utf-8"))["public_hex"]
+    sig = _sign_bytes(lock_path.read_bytes(), key_path)
+    if not sig:
+        return 1
+    (root / SIG_FILE).write_text(sig + "\n", encoding="utf-8")
+    (root / PUB_FILE).write_text(pub_hex + "\n", encoding="utf-8")
+    print(f"signed {lock_path.name} -> {SIG_FILE} (pub {pub_hex[:16]}…)")
+    return 0
+
+
+def _signature_problems(root: Path, lock_path: Path) -> list[str]:
+    problems: list[str] = []
+    pub_path = root / PUB_FILE
+    sig_path = root / SIG_FILE
+    if not pub_path.exists() and not sig_path.exists():
+        return problems  # 未启用签名不阻塞（政策在 policy 文件里显式声明）
+    if not pub_path.exists():
+        problems.append(f"{SIG_FILE} present but {PUB_FILE} missing")
+        return problems
+    if not sig_path.exists():
+        problems.append(f"{PUB_FILE} present but {SIG_FILE} missing (lock is unsigned)")
+        return problems
+    pub_hex = pub_path.read_text(encoding="utf-8").strip()
+    sig_hex = sig_path.read_text(encoding="utf-8").strip()
+    policy_path = root / POLICY_NAME
+    if policy_path.exists():
+        try:
+            policy = json.loads(policy_path.read_text(encoding="utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            problems.append(f"{POLICY_NAME}: unreadable ({exc})")
+            policy = {}
+        allowed = [str(x).strip() for x in (policy.get("allowed_signers") or [])]
+        if allowed and pub_hex not in allowed:
+            problems.append("signer not authorized by policy (public key is not an allowed signer)")
+        prefixes = [str(x) for x in (policy.get("path_prefixes") or [])]
+        if prefixes:
+            lock = json.loads(lock_path.read_text(encoding="utf-8"))
+            for e in lock.get("skills", []):
+                if not any(e["path"].startswith(p) for p in prefixes):
+                    problems.append(f"{e['path']}: outside the signer's authorized path_prefixes")
+    if not _verify_bytes(lock_path.read_bytes(), sig_hex, pub_hex):
+        problems.append(f"signature invalid: {SIG_FILE} does not match {lock_path.name} (lock edited after signing)")
+    return problems
 
 
 if __name__ == "__main__":
