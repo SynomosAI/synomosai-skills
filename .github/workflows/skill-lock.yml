@@ -37,19 +37,6 @@ jobs:
           python -m pip install --quiet pytest
           python -m pytest tests/test_skill_lock.py -q
 
-      - name: DEBUG digests (temporary)
-        run: |
-          set -x
-          ls -lR skills/a3-law-operational | head -30
-          find skills/a3-law-operational -type f -exec sha256sum {} \;
-          python - <<'PY'
-          from pathlib import Path
-          import hashlib, sys
-          d = Path("skills/a3-law-operational")
-          for p in sorted(d.rglob("*")):
-              if p.is_file():
-                  print(p.as_posix(), hashlib.sha256(p.read_bytes()).hexdigest())
-          PY
       - name: Verify the skills lock
         run: |
           set -e

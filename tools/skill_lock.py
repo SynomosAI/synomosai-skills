@@ -49,13 +49,14 @@ def _skill_dirs(root: Path) -> list[Path]:
         dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS and not d.startswith("."))
         if "SKILL.md" in filenames:
             found.append(Path(dirpath))
-    return sorted(found)
+    # 只按 POSIX 相对路径字符串排序，避免 Windows 的大小写不敏感排序造成跨平台摘要不一致
+    return sorted(found, key=lambda d: (d.relative_to(root).as_posix() or "."))
 
 
 def _tree_digest(skill_dir: Path) -> tuple[str, int]:
     """目录摘要 = sha256( 排序后的 "相对路径\\0文件sha256" 逐行拼接 )。"""
     files: list[tuple[str, str]] = []
-    for p in sorted(skill_dir.rglob("*")):
+    for p in skill_dir.rglob("*"):
         if not p.is_file():
             continue
         parts = set(p.relative_to(skill_dir).parts)
@@ -63,6 +64,8 @@ def _tree_digest(skill_dir: Path) -> tuple[str, int]:
             continue
         rel = p.relative_to(skill_dir).as_posix()
         files.append((rel, _sha256_file(p)))
+    # 关键：按 POSIX 字符串排序（字节序），Windows 的 case-insensitive 排序会让摘要跨平台不一致
+    files.sort(key=lambda item: item[0])
     h = hashlib.sha256()
     for rel, digest in files:
         h.update(f"{rel}\0{digest}\n".encode())

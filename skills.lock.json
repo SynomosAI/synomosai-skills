@@ -1,362 +1,362 @@
 {
   "algorithm": "sha256(sorted relpath + NUL + file sha256, per line)",
-  "root_digest": "79c1d2dddc1d01271ff08d3d4500dd3f3eaf0b988854bc401450f4a18ba5f34f",
+  "root_digest": "6f594ff4b894870966ac27d5ad189e28dd4d6e0845230dd41659d6001d1ade72",
   "schema_version": 1,
   "skill_count": 51,
   "skills": [
     {
       "declared_name": "a3-law-operational",
-      "digest": "a8f23e795eb207306f3ee16aa1a2dbee4df1f2a8b5e997354c997abedc5f84f6",
+      "digest": "b0351e58f732f4de90baea40c0ed72f7f9d2613d7defeea5bdb6a3d047f51c54",
       "file_count": 3,
       "has_description": true,
       "path": "skills/a3-law-operational"
     },
     {
       "declared_name": "agent-learn-external-skill",
-      "digest": "7a15ee89035d31d74973aad29aeb34323ed5c4052e5988f2cc0d9d125d22fac7",
+      "digest": "f3ee51f53932ea58b451342e67da96915c059ac73485b54a6e9967eb67026163",
       "file_count": 3,
       "has_description": true,
       "path": "skills/agent-learn-external-skill"
     },
     {
       "declared_name": "ai-brain-learning-memory",
-      "digest": "bbea753e7b16f25fa66a757e4818fb2eed1b083d72131de9b37d5892ecda4294",
+      "digest": "1396c66f428718b55a1bf4f819c8998db08e143c8080443db70f0a5778025a9d",
       "file_count": 6,
       "has_description": true,
       "path": "skills/ai-brain-learning-memory"
     },
     {
       "declared_name": "ai-brain-learning-memory-pro",
-      "digest": "faa53a12a144227c6baf6afb59ca48abbda7c68264d494e36fe97dbe07316a60",
+      "digest": "674dc53c9725f79b9f9a3c54ec5c71fa2bc4454a4745169ae3e9df3ea5ffde2f",
       "file_count": 8,
       "has_description": true,
       "path": "skills/ai-brain-learning-memory-pro"
     },
     {
       "declared_name": "ai-consciousness",
-      "digest": "bac3e9524bb39f37eebc1562cabcab212a2d5b4402e9e30f0645bce338d56272",
+      "digest": "bea2feaa5bc42f26cd23408a865299b908fa90ff38beef7230f3d6d73fe38785",
       "file_count": 3,
       "has_description": true,
       "path": "skills/ai-consciousness"
     },
     {
       "declared_name": "ai-governance-audit-chain",
-      "digest": "3f61b341cddc668df5628fb39770bc5a2a057a4fc271b4bfc71807a74383d633",
+      "digest": "6ec0626826fc6f69db855fffc291e20f0d37e0132814b99584690e21350b040c",
       "file_count": 3,
       "has_description": true,
       "path": "skills/ai-governance-audit-chain"
     },
     {
       "declared_name": "ai-grader",
-      "digest": "89370758b57a18a478a2778fb9c49279e8fc3394946daec4127557ff7fd4276b",
+      "digest": "5f80c122bb16076b92671e753aec130d0dc93ec2a8db7c3eda17103b7782ff1b",
       "file_count": 28,
       "has_description": true,
       "path": "skills/ai-grader"
     },
     {
       "declared_name": "ardot-mobile-app-multi-screen",
-      "digest": "cb723ff7269daf395442e1023574e3b125c43aa1acaab2c2c9dc7ab9889e43d0",
+      "digest": "e07f96aa920eb19c9b3fa5f705730436467e1d43edfdfffff32134041cfb5a6c",
       "file_count": 3,
       "has_description": true,
       "path": "skills/ardot-mobile-app-multi-screen"
     },
     {
       "declared_name": "asset-controlled-export-pipeline",
-      "digest": "e35241c756a32ede6d209e26d99a5086d58d59dae8688b4e3dcf79cadb841caa",
+      "digest": "9dedb321b133fd1a08e3f436b89615a84d7d35b15c8255ab4b18db018596d0be",
       "file_count": 5,
       "has_description": true,
       "path": "skills/asset-controlled-export-pipeline"
     },
     {
       "declared_name": "authz-code-design",
-      "digest": "ee469267522e819e28e351f6af1c3a4040dec7a33db14d5e9af7d84cd5ec682d",
+      "digest": "15cfc0d0537563dc0da0898d24f0cd054f972036c14292e185d5f838c7f6ed71",
       "file_count": 10,
       "has_description": true,
       "path": "skills/authz-code-design"
     },
     {
       "declared_name": "brain-design-benchmark",
-      "digest": "14728c19c91b13fde6721c600445348ebd7426532f016b9f2e13ca53d69556c0",
+      "digest": "820f85f8b3a5b278c963f7057460ee14b873b85c5354770f1d09755864152904",
       "file_count": 4,
       "has_description": true,
       "path": "skills/brain-design-benchmark"
     },
     {
       "declared_name": "code-mentor",
-      "digest": "e7f673a0c59001bdc1b372fcf95d16fa90fef244e0648ee95b6daf896424a938",
+      "digest": "6ecbe72f681354a780be5f23f84f6a3b45c5371b6c06a308ce684ea3c82c6c9d",
       "file_count": 4,
       "has_description": true,
       "path": "skills/code-mentor"
     },
     {
       "declared_name": "coding-agent",
-      "digest": "bf57a3782e0db1868970308bc6288977c64f3a23e34282d290ffc726b48e89b8",
+      "digest": "0a4cc628b4a36871370c15aff75c679da1678810a0b60b1b1992f084e3eec901",
       "file_count": 3,
       "has_description": true,
       "path": "skills/coding-agent"
     },
     {
       "declared_name": "content-publish-lifecycle",
-      "digest": "26909ed61489597373b696e5bb132c46bf2fc3e7e90cac85d5e51922d7521035",
+      "digest": "ba4e24d48772133c6dd47a0ef3d560ab283ae8a16019b05e45e688aa9dd9e940",
       "file_count": 9,
       "has_description": true,
       "path": "skills/content-publish-lifecycle"
     },
     {
       "declared_name": "continuous-test-review-loop",
-      "digest": "bb250ef022d6125304ed75dc79f038d39f3657cd8d5e127a1a7eff94a913f7b6",
+      "digest": "dccd54a8ed5e50eeae701e56ce4277e3fffb1b41e1b3caf51c9e471047b402fe",
       "file_count": 3,
       "has_description": true,
       "path": "skills/continuous-test-review-loop"
     },
     {
       "declared_name": "credential-vault-design",
-      "digest": "a341e07c4a11739c5569121834f24f0273421fbeff32e1616996ecf52b328f84",
+      "digest": "784fef9e74b588fca80f4ea5cdf3120db22f31117725a593b1a60656c174b5da",
       "file_count": 27,
       "has_description": true,
       "path": "skills/credential-vault-design"
     },
     {
       "declared_name": "cross-machine-offline-taskbox",
-      "digest": "52dba6841a83760bb72b58d6cc04153a1616ef843ed93b79a6633a5f20e34542",
+      "digest": "aea022feafb9c3d7d1f2e4ef2e3aed63fe65699b69910d5fc95a0d5d3c8c5d33",
       "file_count": 5,
       "has_description": true,
       "path": "skills/cross-machine-offline-taskbox"
     },
     {
       "declared_name": "cross-session-passphrase",
-      "digest": "147feb26b3c0a5875e07bb40c0d4f4c23e808bbd6eccc689299be52e0b38dc7d",
+      "digest": "d1fae56a1034c2723cba97682aedc9adb8a4ea28badd1d9f0613e011d85a32b4",
       "file_count": 3,
       "has_description": true,
       "path": "skills/cross-session-passphrase"
     },
     {
       "declared_name": "data-scientist",
-      "digest": "dbecce5b16bc1c2795fed824d97bf7ea495c985c56d00214a195d2581f16fc57",
+      "digest": "0bb87b74d47ea78b18477f2c437e53b716871ad0eca530a61c49314d322d4741",
       "file_count": 3,
       "has_description": true,
       "path": "skills/data-scientist"
     },
     {
       "declared_name": "debug-pro",
-      "digest": "9fb18569851463f39cf055535fc9e57be7d4522df61c5d5cefb59d0e8a0fba43",
+      "digest": "f43a2bd88f5fea1c0c65b77a643c2d3c1d774124fba146117c561705fc2e06e9",
       "file_count": 3,
       "has_description": true,
       "path": "skills/debug-pro"
     },
     {
       "declared_name": "doc-legacy-extract",
-      "digest": "f0f7b48d84fc7f73725bdb3404912cb1a2b9c14e93454cee6cf48657e7f76704",
+      "digest": "45f7f478f098352f07faf2d9522695dfcd6d683852737495b43e55e2b7884853",
       "file_count": 3,
       "has_description": true,
       "path": "skills/doc-legacy-extract"
     },
     {
       "declared_name": "fingerprint-delivery",
-      "digest": "05f784773b64c107f72b5d7a11cc9d422508b6541f952093acbad8d77ec1d596",
+      "digest": "546d070eab39508bec2c244f74b3b8174a63f8043a6d1553c255262bfc5feb50",
       "file_count": 4,
       "has_description": true,
       "path": "skills/fingerprint-delivery"
     },
     {
       "declared_name": "identity-verify",
-      "digest": "64c9883ee7dc6d4815ddee2a6be6bcdadbc339e23ba09dfb34e7833d12a09fa2",
+      "digest": "da300c0d8e024105d6d4f6163dbff4171ba51aa75cc7d7e7cd4b7121f4eb2315",
       "file_count": 3,
       "has_description": true,
       "path": "skills/identity-verify"
     },
     {
       "declared_name": "laopaidang-core",
-      "digest": "6b8d80288068ebc2cb817bdd4e88508c74810a681325e07224cfc8295fc7045c",
+      "digest": "e668712ed6d77ca71d00f9cd631a6d90355bdea5d4ce4681384990d7428c243d",
       "file_count": 3,
       "has_description": true,
       "path": "skills/laopaidang-core"
     },
     {
       "declared_name": "lexiang-website-sync",
-      "digest": "b525b45af612749ef5bc8ba17af112e261ec3baf5f831c35ddecda75d32471ba",
+      "digest": "e37719def4bac291adfdc3079e16ba9b026632025657898bdf33aa4797bad41d",
       "file_count": 3,
       "has_description": true,
       "path": "skills/lexiang-website-sync"
     },
     {
       "declared_name": "llm-gateway-hub",
-      "digest": "87e6448c637442724223082aae05e0a100882a90919ff10b51958dbf89d70af1",
+      "digest": "f592eacd2664ea2508b4962ce06861667a9b087361d1a84c020570a13660dd9c",
       "file_count": 13,
       "has_description": true,
       "path": "skills/llm-gateway-hub"
     },
     {
       "declared_name": "local-agent-open",
-      "digest": "27183a149af4ee7279da1316c9f9feb412af1c76ce140a1c945a52a6ac274c60",
+      "digest": "4f952618c7b0029caa4e0b9e65627f31bbe43d59af512307371f9869c1dd078c",
       "file_count": 3,
       "has_description": true,
       "path": "skills/local-agent-open"
     },
     {
       "declared_name": "local-llm-eval-assist",
-      "digest": "aad6f8ba5dcb46038ea28d17d28526e876a4afd6a45b3469627648eb60fb1372",
+      "digest": "86bd8d0b82d19ae97bda70f1600afdee8e76d4bfe6e3eebd51e20bf883586b02",
       "file_count": 3,
       "has_description": true,
       "path": "skills/local-llm-eval-assist"
     },
     {
       "declared_name": "medxpert-l1-batch-study",
-      "digest": "12780a68a2a28f0b5a67ca2d4b0deddcaf8f35c7898abe830f582c82d3ff80c1",
+      "digest": "6e9f5e99f7b33bad13aebc7c1c730adf9fddb06d0f1f73e4cf89d998b6344bb9",
       "file_count": 4,
       "has_description": true,
       "path": "skills/medxpert-l1-batch-study"
     },
     {
       "declared_name": "medxpert-llm-library",
-      "digest": "ca57e1ece69cb6560979aff95e4f2a3b0c25edf9f512a9c05fda5f134d636f11",
+      "digest": "a223fa3b557908c3c9c53c7b2f648e0558434a6027aeb80b7d5310d4e6a8d769",
       "file_count": 13,
       "has_description": true,
       "path": "skills/medxpert-llm-library"
     },
     {
       "declared_name": "medxpert-skill-panorama",
-      "digest": "ce49aa201f12ff84432e6ab54a8febbbd7bf792512d55f3ec998d5d20936da11",
+      "digest": "5532ea2ab16ca081e258e04294e5dc9c0dcfe8e48e7f587850b8f6db7e910cca",
       "file_count": 3,
       "has_description": true,
       "path": "skills/medxpert-skill-panorama"
     },
     {
       "declared_name": "offline-knowledge-alignment",
-      "digest": "b1f9c91daf52adeb4d707f2f7ab4f1687b842df02ac33a9a8015985c1ac50037",
+      "digest": "b17b6a666913c17ad2b7b655fd87c82c90baab18abf6560d62910ce00e2c5aea",
       "file_count": 3,
       "has_description": true,
       "path": "skills/offline-knowledge-alignment"
     },
     {
       "declared_name": "personal-assistant",
-      "digest": "5ec84cdef9de5d100c9805745c4d80a92fa24c014caf3202f5c45983ecb4f352",
+      "digest": "1f7b2243a4d28605b2899f9dbcf9783c3d28fffa2b09ef9aa8f680061cb233ef",
       "file_count": 3,
       "has_description": true,
       "path": "skills/personal-assistant"
     },
     {
       "declared_name": "premise-and-config-audit",
-      "digest": "bf8f9b548aac8de43a712076590d4a2f0b9627f0c5eaa5fbfa0b2e7220f6a8c0",
+      "digest": "8e2ce4fc0608f4d0b246016dc2fe3327b69f4ac855e1b861fd288486f04f8866",
       "file_count": 3,
       "has_description": true,
       "path": "skills/premise-and-config-audit"
     },
     {
       "declared_name": "project-planning-methodology",
-      "digest": "b64b1ec12755e0407fb17c4fab055a4abcae06fc65a74085c4c16a06e315e8ac",
+      "digest": "2b312db075f5b8114fee804a9a2c0c1b4a0d67b7cdbb790bce8257fec689ca2c",
       "file_count": 3,
       "has_description": true,
       "path": "skills/project-planning-methodology"
     },
     {
       "declared_name": "publish-quality-gate",
-      "digest": "f4d14900afd6d34546879e68ecf675de56c18e086d10af56c3dfeca847ea9e8b",
+      "digest": "b5af466213ec93d5aaf13ed892dde21b37c3ef3dbd4ab7f816a968bec770a5fa",
       "file_count": 7,
       "has_description": true,
       "path": "skills/publish-quality-gate"
     },
     {
       "declared_name": "rag-eval-harness",
-      "digest": "9551a47375506f838d59a3039b9aef5a1b7787c84018bbabe0ddda8d35cde96c",
+      "digest": "a80048f5eb3e435073bde663d1996e7ce5aaacaf93b29fb92945c1d9121d12e1",
       "file_count": 10,
       "has_description": true,
       "path": "skills/rag-eval-harness"
     },
     {
       "declared_name": "reminder",
-      "digest": "63198c85a94931a41177bcd8bd41e98821d95b6a7c31ac28f7ebf789b3355b5f",
+      "digest": "1b302c1991e8136fb4df7691709c42d105c49b60b66cdb2ef5a9c4e857636033",
       "file_count": 3,
       "has_description": true,
       "path": "skills/reminder"
     },
     {
       "declared_name": "research-methodology",
-      "digest": "948e485bb52e0dd6e76deac7f3c2a2af96e21aef691f1f8b492e48e325f31a80",
+      "digest": "c13217cfd0b06236e760ce1a17953c004dfa815ebcbbb943d119f40f57c23d71",
       "file_count": 3,
       "has_description": true,
       "path": "skills/research-methodology"
     },
     {
       "declared_name": "research-quality-gate",
-      "digest": "300fdce225de3f26d26167eb6bc231f2e67b961fe7655616e1c4045d2c7e4aba",
+      "digest": "2181b8d165317a5cc3d5b0351bcda8b543cf16f81167f88aa18f482db84c5d4b",
       "file_count": 4,
       "has_description": true,
       "path": "skills/research-quality-gate"
     },
     {
       "declared_name": "ssot-content-management",
-      "digest": "18c6f8d7c151ebab2990c6df66e52b271714ef4ad067db2caa0803c3a2e477a0",
+      "digest": "560015a5bcc845de2b352fdd9f887691bae020a5638c9239cd64e891caa985f5",
       "file_count": 3,
       "has_description": true,
       "path": "skills/ssot-content-management"
     },
     {
       "declared_name": "summarize-file",
-      "digest": "f5549a54c3eed130efcf80efc643f52c71dd19d8ba767f4c4a956d618792fdec",
+      "digest": "ea363c17e32cc342598414fea61dd14b30e1e0c3d1796631f4c9309fcb97b723",
       "file_count": 3,
       "has_description": true,
       "path": "skills/summarize-file"
     },
     {
       "declared_name": "summarize-pro",
-      "digest": "18a882beeb5230111f42ee16d85045679ba5bb04491f5b9059651e0e2b734060",
+      "digest": "8c0465b185ad2787d15b4d22441e1715430561f4d9322cdfdfb4d7dc756523a5",
       "file_count": 3,
       "has_description": true,
       "path": "skills/summarize-pro"
     },
     {
       "declared_name": "tencent-cos-static-site",
-      "digest": "4aa36c62af0b1093a15e455c4cc5417d200af6ee8ca056e6f6b5d2fe0c9e1427",
+      "digest": "07d0cd63742c43d8e81423c32c319d776c08a076675ca847dc04916ed8cfd194",
       "file_count": 3,
       "has_description": true,
       "path": "skills/tencent-cos-static-site"
     },
     {
       "declared_name": "todo-tracker",
-      "digest": "6919401b3b2cef365b89316a83f5a62bcf25b55d033a6637779da6019884c8ec",
+      "digest": "947f905234f0133e53251a4d8c7eef6985483fb7520448f70eda6b345781d57d",
       "file_count": 3,
       "has_description": true,
       "path": "skills/todo-tracker"
     },
     {
       "declared_name": "traceability-audit-team",
-      "digest": "4ad25b7930df782c1ec8a3d168f058c00a2edf07c8e51ea0500b18327887ff43",
+      "digest": "26b12281f932dda9dae5e45933df7ee7b1fb3ecec0c5b2f2a9ed172d543c44f5",
       "file_count": 9,
       "has_description": true,
       "path": "skills/traceability-audit-team"
     },
     {
       "declared_name": "unified-task-ledger",
-      "digest": "fcb1499f9c737b8cba328f155a16490373626a13006b00939a3e8866bfc69f2f",
+      "digest": "0da89f1505a0f90fcd1abb84b2334bbb2324a7bee5302370441383d9de8e3e78",
       "file_count": 3,
       "has_description": true,
       "path": "skills/unified-task-ledger"
     },
     {
       "declared_name": "video-watermark-anti-theft",
-      "digest": "1cb25098716ad2fcaf8676944cf943b24fb06ddfb5d5a749fab3539d4c1ce5f5",
+      "digest": "6a812791692a42bac45fca429238d415c05db5ac3017998cdcf18e392abd5141",
       "file_count": 3,
       "has_description": true,
       "path": "skills/video-watermark-anti-theft"
     },
     {
       "declared_name": "wechat-article-full-workflow",
-      "digest": "1a29ded7eac117576e1062d8f4391ce0fecac6809a4660ec443eba2a3a5564a2",
+      "digest": "d63087024038d421d7872bcad1eea6e9e01f8fafc2b0daa8c028b7c8894566e9",
       "file_count": 12,
       "has_description": true,
       "path": "skills/wechat-article-full-workflow"
     },
     {
       "declared_name": "wechat-qa-checklist",
-      "digest": "574b402eebd4e1dee01e9aa619b1accfea50ce30bd9cec22fc90ec5035510570",
+      "digest": "76b7cc05f81506a2cb0b0b36c5dc19342446d29c45397aebe26f80471df32760",
       "file_count": 3,
       "has_description": true,
       "path": "skills/wechat-qa-checklist"
     },
     {
       "declared_name": "wechat-viral-topic",
-      "digest": "674b3fc8fa76caffb96045b687eb726072377657a7e16f1eac5c853516bd5b65",
+      "digest": "4df43d46590193fc5720760b509dc99ce3aa1be80eda8baf306e4133d701e5a8",
       "file_count": 12,
       "has_description": true,
       "path": "skills/wechat-viral-topic"
